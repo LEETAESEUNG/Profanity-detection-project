@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>비하 및 욕설 탐지</title>
+    <style>
+        .pagination span,
+        .pagination a {
+            margin: 0 2px;
+            text-decoration: none;
+        }
+        .pagination .current {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>No</th>
+            <th>Content</th>
+            <th>Category</th>
+        </tr>
+        {% for post in page_obj %}
+        <tr>
+            <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+            <td>{{ post.content }}</td>
+            <td>{{ post.category }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            {% for num in page_numbers %}
+                {% if num == page_obj.number %}
+                    <span class="current">{{ num }}</span>
+                {% else %}
+                    <a href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+        </span>
+    </div>
+</body>
+</html>
